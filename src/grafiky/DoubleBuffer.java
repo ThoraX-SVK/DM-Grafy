@@ -7,10 +7,6 @@
 
 package grafiky;
 
-/**
- *
- * @author Tom
- */
 import java.awt.*;
 
 public class DoubleBuffer extends Canvas{
