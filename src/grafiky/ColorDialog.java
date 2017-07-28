@@ -9,10 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-/**
- *
- * @author Tom
- */
 public class ColorDialog extends Dialog implements ActionListener{
 
     MyFrame F;
@@ -28,7 +24,6 @@ public class ColorDialog extends Dialog implements ActionListener{
         
         addWindowListener(new WindowAdapter () {   
             public void windowClosing(WindowEvent e) {
-
                 dispose();
             }
         });
@@ -41,34 +36,25 @@ public class ColorDialog extends Dialog implements ActionListener{
         minSkeletonC.addActionListener(this);
         
         Panel P = new Panel();
-
         P.add(dijkstraC);
         P.add(minSkeletonC);
-        
+    
         this.add("South",P);
-       
-        
-       this.setVisible(true);
+        this.setVisible(true);
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() == dijkstraC) {
-            
             PickColourDialog PCD = new PickColourDialog(F, "Vyber si farbu", true);
             if (PCD.C != null)
                 F.setDijkstraC(PCD.C);
-            
         }
         else if (e.getSource() == minSkeletonC) {
             PickColourDialog PCD = new PickColourDialog(F, "Vyber si farbu", true);
             if (PCD.C != null)
                 F.setMinSkeletonC(PCD.C);  
-            
         }
-
     }
-    
-    
 }
