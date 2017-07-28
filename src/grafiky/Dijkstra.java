@@ -13,16 +13,9 @@ public class Dijkstra {
     
     public static void Dijkstra (MyCanvas C, LinkedList<MyPoint> points, LinkedList<Line> lines, MyPoint start, MyPoint end, Color lineC) {
         
-        for (int i = 0; i < points.size(); i++) {
-            points.get(i).setDistToStart(Double.MAX_VALUE);
-            points.get(i).getParrents().clear();
-            points.get(i).setVisited(false);
-            points.get(i).setSeen(false);  
-        }
+        PreparePoints(points);
+        PrepareLines(lines);
         
-        for (int i = 0; i < lines.size(); i++) {
-           lines.get(i).setC(Color.BLACK);
-        }
         
         start.setDistToStart(0);
         start.setSeen(true);
@@ -33,16 +26,16 @@ public class Dijkstra {
         @Override
         public int compare(MyPoint o1, MyPoint o2) {
 
-        if (o1.getDistToStart() < o2.getDistToStart()) {
-            return -1;
-        }
-        if (o1.getDistToStart() > o2.getDistToStart()) {
-            return 1;
-        }
+            if (o1.getDistToStart() < o2.getDistToStart()) {
+                return -1;
+            }
+            if (o1.getDistToStart() > o2.getDistToStart()) {
+                return 1;
+            }
 
-        return 0;
-        }
-    };
+            return 0;
+            }
+        };
     
         PriorityQueue<MyPoint> PQ = new PriorityQueue(comparator);
         
@@ -53,12 +46,12 @@ public class Dijkstra {
             
             if (current == end) {
                 
-                FindStartRecursive(end, start, lines,lineC);
+                FindStartRecursive(end, start, lines, lineC);
                 break;
             }
             
             for (int i = 0; i < lines.size(); i++) {
-                if (lines.get(i).S == current) {
+                if (lines.get(i).S == current) {    // S - staring point of a line
                     MyPoint tmp = lines.get(i).E;
 
                     if (!tmp.isVisited()) {
@@ -131,6 +124,25 @@ public class Dijkstra {
                 }
             }
         }
+    }
+    
+    private static void PreparePoints(LinkedList<MyPoint> points) {
+        
+        for (int i = 0; i < points.size(); i++) {
+            points.get(i).setDistToStart(Double.MAX_VALUE);
+            points.get(i).getParrents().clear();
+            points.get(i).setVisited(false);
+            points.get(i).setSeen(false);  
+        }
+        
+    }
+    
+    private static void PrepareLines(LinkedList<Line> lines) {
+        
+        for (int i = 0; i < lines.size(); i++) {
+           lines.get(i).setC(Color.BLACK);
+        }
+        
     }
     
     
