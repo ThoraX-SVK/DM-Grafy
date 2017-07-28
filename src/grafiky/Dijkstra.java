@@ -51,56 +51,22 @@ public class Dijkstra {
             }
             
             for (int i = 0; i < lines.size(); i++) {
+                
                 if (lines.get(i).S == current) {    // S - staring point of a line
-                    MyPoint tmp = lines.get(i).E;
-
-                    if (!tmp.isVisited()) {
-                        
-                        if (!tmp.isSeen()) {
-                            PQ.remove(tmp);
-                            PQ.add(tmp);
-                            tmp.setSeen(true);
-                        }
-                        
-                        if (tmp.getDistToStart() > current.getDistToStart() + lines.get(i).getLineValue()) {
-                            tmp.setDistToStart(current.getDistToStart() + lines.get(i).getLineValue());
-                            tmp.getParrents().clear();
-                            tmp.getParrents().add(current);
-                            PQ.remove(tmp);
-                            PQ.add(tmp);
-                        }
-                        
-                        else if (tmp.getDistToStart() == current.getDistToStart() + lines.get(i).getLineValue()) {
-                            tmp.getParrents().add(current);  
-                        }
-                        
-                    }
-
+                    MyPoint tmpPoint = lines.get(i).E;
+                    Line tmpLine = lines.get(i);
+                    
+                    pointRoutine(PQ, tmpPoint, current, tmpLine);
                 }
-                if (lines.get(i).E == current) { // E -end point of line
-                    MyPoint tmp = lines.get(i).S;
-
-                    if (!tmp.isVisited()) {
-                        
-                        if (!tmp.isSeen()) {
-                            PQ.remove(tmp);
-                            PQ.add(tmp);
-                            tmp.setSeen(true);
-                        }
-                        
-                        if (tmp.getDistToStart() > current.getDistToStart() + lines.get(i).getLineValue()) {
-                            tmp.setDistToStart(current.getDistToStart() + lines.get(i).getLineValue());
-                            tmp.getParrents().clear();
-                            tmp.getParrents().add(current);
-                            PQ.remove(tmp);
-                            PQ.add(tmp);
-                        }
-                        
-                        else if (tmp.getDistToStart() == current.getDistToStart() + lines.get(i).getLineValue()) {
-                            tmp.getParrents().add(current);  
-                        }
-                    }
+                
+                //else if OR if?
+                else if (lines.get(i).E == current) { // E -end point of line
+                    MyPoint tmpPoint = lines.get(i).S;
+                    Line tmpLine = lines.get(i);
+                    
+                    pointRoutine(PQ, tmpPoint, current, tmpLine);     
                 }
+                
             }
             current.setVisited(true);
         }
@@ -143,6 +109,30 @@ public class Dijkstra {
            lines.get(i).setC(Color.BLACK);
         }
         
+    }
+    
+    private static void pointRoutine(PriorityQueue<MyPoint> PQ, MyPoint tmpPoint, MyPoint current, Line tmpLine) {
+        
+        if (!tmpPoint.isVisited()) {
+
+            if (!tmpPoint.isSeen()) {
+                PQ.remove(tmpPoint);
+                PQ.add(tmpPoint);
+                tmpPoint.setSeen(true);
+            }
+
+            if (tmpPoint.getDistToStart() > current.getDistToStart() + tmpLine.getLineValue()) {
+                tmpPoint.setDistToStart(current.getDistToStart() + tmpLine.getLineValue());
+                tmpPoint.getParrents().clear();
+                tmpPoint.getParrents().add(current);
+                PQ.remove(tmpPoint);
+                PQ.add(tmpPoint);
+            }
+            else if (tmpPoint.getDistToStart() == current.getDistToStart() + tmpLine.getLineValue()) {
+                tmpPoint.getParrents().add(current);  
+            }
+
+        }
     }
     
     
