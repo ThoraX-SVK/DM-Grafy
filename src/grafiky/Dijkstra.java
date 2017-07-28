@@ -13,8 +13,8 @@ public class Dijkstra {
     
     public static void Dijkstra (MyCanvas C, LinkedList<MyPoint> points, LinkedList<Line> lines, MyPoint start, MyPoint end, Color lineC) {
         
-        PreparePoints(points);
-        PrepareLines(lines);
+        preparePoints(points);
+        prepareLines(lines);
         
         
         start.setDistToStart(0);
@@ -46,7 +46,7 @@ public class Dijkstra {
             
             if (current == end) {
                 
-                FindStartRecursive(end, start, lines, lineC);
+                findStartRecursive(end, start, lines, lineC);
                 break;
             }
             
@@ -77,7 +77,7 @@ public class Dijkstra {
                     }
 
                 }
-                if (lines.get(i).E == current) {
+                if (lines.get(i).E == current) { // E -end point of line
                     MyPoint tmp = lines.get(i).S;
 
                     if (!tmp.isVisited()) {
@@ -106,14 +106,14 @@ public class Dijkstra {
         }
     }
 
-    private static void FindStartRecursive(MyPoint point, MyPoint start, LinkedList<Line> lines, Color lineC) {
+    private static void findStartRecursive(MyPoint point, MyPoint start, LinkedList<Line> lines, Color lineC) {
         
         if (point == start) {
             return;
         }
         
         for (int i = 0; i < point.getParrents().size(); i++) {
-            FindStartRecursive(point.getParrents().get(i),start,lines,lineC);
+            findStartRecursive(point.getParrents().get(i),start,lines,lineC);
             
             for (int j = 0; j < lines.size(); j++) {
                 if (lines.get(j).E == point && lines.get(j).S == point.getParrents().get(i)) {
@@ -126,7 +126,7 @@ public class Dijkstra {
         }
     }
     
-    private static void PreparePoints(LinkedList<MyPoint> points) {
+    private static void preparePoints(LinkedList<MyPoint> points) {
         
         for (int i = 0; i < points.size(); i++) {
             points.get(i).setDistToStart(Double.MAX_VALUE);
@@ -137,7 +137,7 @@ public class Dijkstra {
         
     }
     
-    private static void PrepareLines(LinkedList<Line> lines) {
+    private static void prepareLines(LinkedList<Line> lines) {
         
         for (int i = 0; i < lines.size(); i++) {
            lines.get(i).setC(Color.BLACK);
