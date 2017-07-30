@@ -5,17 +5,13 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 
-/**
- *
- * @author Tom
- */
 public class Dijkstra {
     
-    public static void Dijkstra (MyCanvas C, LinkedList<MyPoint> points, LinkedList<Line> lines, MyPoint start, MyPoint end, Color lineC) {
+    public static void Dijkstra (MyCanvas C, LinkedList<MyPoint> points, LinkedList<Line> lines,
+                                 MyPoint start, MyPoint end, Color lineC) {
         
         preparePoints(points);
         prepareLines(lines);
-        
         
         start.setDistToStart(0);
         start.setSeen(true);
@@ -45,20 +41,17 @@ public class Dijkstra {
             MyPoint current = PQ.poll();
             
             if (current == end) {
-                
                 findStartRecursive(end, start, lines, lineC);
                 break;
             }
             
             for (int i = 0; i < lines.size(); i++) {
-                
                 if (lines.get(i).S == current) {    // S - staring point of a line
                     MyPoint tmpPoint = lines.get(i).E;
                     Line tmpLine = lines.get(i);
                     
                     pointRoutine(PQ, tmpPoint, current, tmpLine);
                 }
-                
                 //else if OR if?
                 else if (lines.get(i).E == current) { // E -end point of line
                     MyPoint tmpPoint = lines.get(i).S;
@@ -66,14 +59,12 @@ public class Dijkstra {
                     
                     pointRoutine(PQ, tmpPoint, current, tmpLine);     
                 }
-                
             }
             current.setVisited(true);
         }
     }
 
     private static void findStartRecursive(MyPoint point, MyPoint start, LinkedList<Line> lines, Color lineC) {
-        
         if (point == start) {
             return;
         }
@@ -85,6 +76,7 @@ public class Dijkstra {
                 if (lines.get(j).E == point && lines.get(j).S == point.getParrents().get(i)) {
                     lines.get(j).setC(lineC);
                 }
+                //Else if? If it finds point in previous if, this one can not be good?
                 if (lines.get(j).S == point && lines.get(j).E == point.getParrents().get(i)) {
                     lines.get(j).setC(lineC);
                 }
@@ -93,18 +85,15 @@ public class Dijkstra {
     }
     
     private static void preparePoints(LinkedList<MyPoint> points) {
-        
         for (int i = 0; i < points.size(); i++) {
             points.get(i).setDistToStart(Double.MAX_VALUE);
             points.get(i).getParrents().clear();
             points.get(i).setVisited(false);
             points.get(i).setSeen(false);  
         }
-        
     }
     
     private static void prepareLines(LinkedList<Line> lines) {
-        
         for (int i = 0; i < lines.size(); i++) {
            lines.get(i).setC(Color.BLACK);
         }
@@ -112,9 +101,7 @@ public class Dijkstra {
     }
     
     private static void pointRoutine(PriorityQueue<MyPoint> PQ, MyPoint tmpPoint, MyPoint current, Line tmpLine) {
-        
         if (!tmpPoint.isVisited()) {
-
             if (!tmpPoint.isSeen()) {
                 PQ.remove(tmpPoint);
                 PQ.add(tmpPoint);
@@ -131,9 +118,6 @@ public class Dijkstra {
             else if (tmpPoint.getDistToStart() == current.getDistToStart() + tmpLine.getLineValue()) {
                 tmpPoint.getParrents().add(current);  
             }
-
         }
     }
-    
-    
 }
